@@ -5,9 +5,9 @@ import org.springframework.stereotype.Repository;
 import ru.job4j.dreamjob.model.Vacancy;
 
 import java.util.Collection;
-import java.util.HashMap;
 import java.util.Map;
 import java.util.Optional;
+import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.atomic.AtomicInteger;
 
 @Repository
@@ -15,7 +15,7 @@ import java.util.concurrent.atomic.AtomicInteger;
 public class MemoryVacancyRepository implements VacancyRepository {
     private final AtomicInteger nextId = new AtomicInteger();
 
-    private final Map<Integer, Vacancy> vacancies = new HashMap<>();
+    private final Map<Integer, Vacancy> vacancies = new ConcurrentHashMap<>();
 
     public MemoryVacancyRepository() {
         save(new Vacancy(0, "Intern Java Developer", "Позиция Intern"));
