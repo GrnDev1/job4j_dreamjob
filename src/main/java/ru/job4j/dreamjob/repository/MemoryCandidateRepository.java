@@ -4,6 +4,7 @@ import net.jcip.annotations.ThreadSafe;
 import org.springframework.stereotype.Repository;
 import ru.job4j.dreamjob.model.Candidate;
 
+import java.time.LocalDateTime;
 import java.util.Collection;
 import java.util.Map;
 import java.util.Optional;
@@ -18,12 +19,12 @@ public class MemoryCandidateRepository implements CandidateRepository {
     private final Map<Integer, Candidate> candidates = new ConcurrentHashMap<>();
 
     public MemoryCandidateRepository() {
-        save(new Candidate(0, "Ivan", "Позиция Intern"));
-        save(new Candidate(0, "Roman", "Позиция Junior"));
-        save(new Candidate(0, "Sergei", "Позиция Junior+"));
-        save(new Candidate(0, "Alex", "Позиция Middle"));
-        save(new Candidate(0, "Max", "Позиция Middle+"));
-        save(new Candidate(0, "Dmitriy", "Позиция Senior"));
+        save(new Candidate(0, "Ivan", "Позиция Intern", LocalDateTime.now(), true, 1, 0));
+        save(new Candidate(0, "Roman", "Позиция Junior", LocalDateTime.now(), true, 1, 0));
+        save(new Candidate(0, "Sergei", "Позиция Junior+", LocalDateTime.now(), true, 1, 0));
+        save(new Candidate(0, "Alex", "Позиция Middle", LocalDateTime.now(), true, 1, 0));
+        save(new Candidate(0, "Max", "Позиция Middle+", LocalDateTime.now(), true, 1, 0));
+        save(new Candidate(0, "Dmitriy", "Позиция Senior", LocalDateTime.now(), true, 1, 0));
     }
 
     @Override
@@ -41,7 +42,9 @@ public class MemoryCandidateRepository implements CandidateRepository {
     @Override
     public boolean update(Candidate candidate) {
         return candidates.computeIfPresent(candidate.getId(), (id, oldCandidate) ->
-                new Candidate(oldCandidate.getId(), candidate.getName(), candidate.getDescription(), candidate.getCreationDate())) != null;
+                new Candidate(oldCandidate.getId(), candidate.getName(), candidate.getDescription(),
+                        candidate.getCreationDate(), candidate.getVisible(), candidate.getCityId(),
+                        candidate.getFileId())) != null;
     }
 
     @Override
