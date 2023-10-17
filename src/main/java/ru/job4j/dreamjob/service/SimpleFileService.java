@@ -19,9 +19,9 @@ public class SimpleFileService implements FileService {
 
     private final String storageDirectory;
 
-    public SimpleFileService(FileRepository fileRepository,
+    public SimpleFileService(FileRepository sql2oFileRepository,
                              @Value("${file.directory}") String storageDirectory) {
-        this.fileRepository = fileRepository;
+        this.fileRepository = sql2oFileRepository;
         this.storageDirectory = storageDirectory;
         createStorageDirectory(storageDirectory);
     }
@@ -72,12 +72,14 @@ public class SimpleFileService implements FileService {
     }
 
     @Override
-    public void deleteById(int id) {
+    public boolean deleteById(int id) {
+        boolean result = false;
         var fileOptional = fileRepository.findById(id);
         if (fileOptional.isPresent()) {
             deleteFile(fileOptional.get().getPath());
-            fileRepository.deleteById(id);
+            result = fileRepository.deleteById(id);
         }
+        return result;
     }
 
     private void deleteFile(String path) {

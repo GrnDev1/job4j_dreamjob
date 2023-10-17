@@ -11,6 +11,6 @@ public interface FileService {
 
     Optional<FileDto> getFileById(int id);
 
-    void deleteById(int id);
+    boolean deleteById(int id);
 
 }

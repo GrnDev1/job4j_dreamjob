@@ -28,8 +28,8 @@ public class MemoryFileRepository implements FileRepository {
     }
 
     @Override
-    public void deleteById(int id) {
-        files.remove(id);
+    public boolean deleteById(int id) {
+        return files.remove(id) != null;
     }
 
 }

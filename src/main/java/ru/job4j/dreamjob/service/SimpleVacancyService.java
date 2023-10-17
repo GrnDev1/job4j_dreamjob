@@ -35,9 +35,9 @@ public class SimpleVacancyService implements VacancyService {
     public boolean deleteById(int id) {
         Optional<Vacancy> temp = vacancyRepository.findById(id);
         if (temp.isPresent()) {
-            fileService.deleteById(temp.get().getFileId());
+            vacancyRepository.deleteById(id);
         }
-        return vacancyRepository.deleteById(id);
+        return fileService.deleteById(temp.get().getFileId());
     }
 
     @Override
