@@ -33,9 +33,9 @@ public class SimpleCandidateService implements CandidateService {
     public boolean deleteById(int id) {
         Optional<Candidate> temp = candidateRepository.findById(id);
         if (temp.isPresent()) {
-            fileService.deleteById(temp.get().getFileId());
+            candidateRepository.deleteById(id);
         }
-        return candidateRepository.deleteById(id);
+        return fileService.deleteById(temp.get().getFileId());
     }
 
     @Override
