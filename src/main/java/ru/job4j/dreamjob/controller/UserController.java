@@ -25,12 +25,11 @@ public class UserController {
 
     @PostMapping("/register")
     public String register(Model model, @ModelAttribute User user) {
-        var userOptional = userService.findByEmailAndPassword(user.getEmail(), user.getPassword());
-        if (userOptional.isEmpty()) {
-            userService.save(user);
-            return "redirect:/vacancies";
+        var savedUser = userService.save(user);
+        if (savedUser.isEmpty()) {
+            model.addAttribute("message", "Пользователь с такой почтой уже существует");
+            return "errors/404";
         }
-        model.addAttribute("message", "Данный пользователь уже есть в системе");
-        return "errors/404";
+        return "redirect:/vacancies";
     }
 }
